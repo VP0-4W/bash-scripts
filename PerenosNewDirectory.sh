@@ -1,7 +1,7 @@
 #!/bin/bash
-#Автор: pochinkov
-#Дата создания скрипта: October 8,2021
-#Описание: Скрипт предназначен для переноса созданных директорий с /var/stalker_storage/storage/ на SSD
+# Author: vp0-4w
+# Script creation date: October 8,2021
+# Описание: В рамках работы с VoD телекоммуникационной компании есть необходимость автоматизировать процесс, предназначенный для переноса новых директорий с диска на ССД, так как у последнего чтение выше, чем у HDD. Скрипт проверяет наличие директорий и переноситновые директории с /var/stalker_storage/storage/ на SSD
 #---------------------------------------------------------------------------------------
 #Создаём переменную для текстового файла, в котором будут храниться каталоги
 katalog=/var/stalker_storage/storage/Katalogi.txt
@@ -15,7 +15,7 @@ sed -i -e '1d' -e '/test_test/d' -e 's/\/var\/stalker_storage\/storage\///g' $ka
 #Записываем дату в переменную
 date=$(date "+%d.%m.%Y-%H:%M")
 #Создаём переменную для текстового файла, в котором будут храниться логи
-logirovanie=/home/pochinkov/Loging/log-running-script-$date.txt
+logirovanie=/home/user/Loging/log-running-script-$date.txt
 #Создаем файл для сохранения логов
 touch $logirovanie
 #---------------------------------------------------------------------------------------
@@ -43,7 +43,8 @@ then
         echo "Выставление прав на скачанные файлы 777 в папке 1new" >> $logirovanie
         chmod 777 /mnt/SSD/1new/*
         #Отправка отчета на почтовый ящик
-        mail -s "TVSTORE2 | Transferring new directories from storage to SSD" pochinkov@redcom.ru < $logirovanie
+        mail -s "SERVER | Transferring new directories from storage to SSD" email@company.ru < $logirovanie
+#Файл не содержит данные        
 else
         #Файл не содержит данные о имеющихся категориях.
         #Запись об отсутствии директорий на перенос в лог файл
@@ -52,7 +53,7 @@ else
         echo "rm $katalog" >> $logirovanie
         rm $katalog
         #Отправка отчета на почтовый ящикПеренос новых каталогов с storage на SSD
-        mail -s "TVSTORE2 | Transferring new directories from storage to SSD" pochinkov@redcom.ru < $logirovanie
+        mail -s "SERVER | Transferring new directories from storage to SSD" email@company.ru < $logirovanie
 fi
 #---------------------------------------------------------------------------------------
 #Конец скрипта
